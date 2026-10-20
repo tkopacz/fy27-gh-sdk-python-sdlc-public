@@ -2,10 +2,7 @@
 
 ## Materiały dla uczestników
 
-[Prezentacja](github-cli-sdk-python.pptx) jest utrzymywana ręcznie. Repozytorium
-nie zawiera jej generatora ani zależności potrzebnych do jej budowania.
-Instrukcje uruchamiania i obserwacji poszczególnych przykładów znajdują się
-w README każdego dema.
+[Prezentacja](20261020-github-cli-sdk-python.pdf). 
 
 ## Kontener deweloperski
 
