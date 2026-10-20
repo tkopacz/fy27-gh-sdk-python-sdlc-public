@@ -1,0 +1,19 @@
+# The telemetry extra enables the SDK's optional OpenTelemetry integration.
+github-copilot-sdk[telemetry]==1.0.14
+agent-client-protocol==0.12.1
+fastapi>=0.115,<1
+httpx>=0.27,<1
+uvicorn>=0.30,<1
+pytest>=8,<10
+# Exercise the real interactive Copilot CLI, including extension slash commands.
+pexpect>=4.9,<5; sys_platform != "win32"
+pyte>=0.8.2,<0.9; sys_platform != "win32"
+ruff==0.11.13
+pyright==1.1.400
+# Build the bundled Beancount C parser in the active demo checkout.
+meson-python>=0.21,<0.23
+meson>=1.2.1,<2
+ninja>=1.11,<2
+flex-bin; sys_platform == "linux" or sys_platform == "darwin"
+bison-bin; sys_platform == "linux" or sys_platform == "darwin"
+winflexbison-bin>=2.5.25.1; sys_platform == "win32"

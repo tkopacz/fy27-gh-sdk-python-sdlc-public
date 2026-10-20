@@ -1,0 +1,15 @@
+{
+  "repository": "beancount/beancount",
+  "number": 1048,
+  "title": "Zero units with a total cost raise an uncaught decimal.DivisionByZero",
+  "url": "https://github.com/beancount/beancount/issues/1048",
+  "body": "A posting with zero units and a total cost divides by the unit count without guarding it, so `load_file` propagates `decimal.DivisionByZero` instead of returning an error. `bean-check` prints a traceback.\n\nReproduction:\n\n```beancount\n2024-01-01 open Assets:S HOOL\n2024-01-01 open Assets:Cash USD\n\n2024-02-01 * \"zero units, total cost\"\n  Assets:S      0 HOOL {{20.00 USD}}\n  Assets:Cash  -20.00 USD\n```\n\n`convert_costspec_to_cost` in `beancount/parser/booking_full.py` computes `unit_cost = cost_total / units_number` with no zero check. The `{0 # 20.00 USD}` spelling fails identically.\n\n`load_file` is documented to return `(entries, errors, options_map)`; parse and booking problems must arrive as entries in `errors`, not as exceptions. Zero units are already guarded in `interpolate_group` (COST_PER) and handled gracefully on the `@@` total-price path.\n\nSuggested fix: guard the division and emit a booking error for a total cost against zero units.",
+  "acceptance_criteria": [
+    "load_file on a posting with `0 HOOL {{20.00 USD}}` does not raise and returns an error entry in the error list",
+    "the `{0 # 20.00 USD}` spelling of the same posting is rejected the same way",
+    "the error message states that a total cost cannot be used with zero units",
+    "compute_cost_number returns None instead of dividing when the unit count is zero",
+    "total cost with non-zero units still produces the same per-unit cost as before",
+    "no decimal.DivisionByZero escapes the loader for any cost spec form"
+  ]
+}

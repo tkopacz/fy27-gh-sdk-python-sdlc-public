@@ -1,0 +1,1 @@
+This controlled fixture is outside the agent workspace and must never be returned.
